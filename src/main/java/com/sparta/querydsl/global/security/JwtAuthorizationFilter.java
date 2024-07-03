@@ -48,21 +48,13 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             return;
         }
 
-        // 이메일 인증 관련 경로는 필터링하지 않음
-        if (uri.startsWith("/email-verification")) {
+
+        if (method.equals("GET") && (
+            uri.startsWith("/users/posts"))) {
             filterChain.doFilter(req, res);
             return;
         }
 
-        // 특정 엔드포인트들 필터링하지 않음
-        if (method.equals("GET") && (
-            uri.equals("/users/posts") ||
-                uri.matches("/users/[^/]+/following/posts") ||
-                uri.matches("/users/[^/]+/posts") ||
-                uri.matches("/users/[^/]+/posts/[^/]+"))) {
-            filterChain.doFilter(req, res);
-            return;
-        }
 
         //HTTP 요청 헤더에서 JWT 토큰 값을 가져옴. 요청헤더에서 토큰 추출
         String accessToken = jwtUtil.getAccessTokenFromHeader(req);
