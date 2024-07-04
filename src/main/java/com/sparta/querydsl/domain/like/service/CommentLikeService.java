@@ -28,9 +28,9 @@ public class CommentLikeService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void doLike(Long postId, User liekUser) {
+    public void doLike(Long postId, User likeUser) {
 
-        User user = userRepository.findById(liekUser.getId()).orElseThrow();//lazy,transactional
+        User user = userRepository.findById(likeUser.getId()).orElseThrow();//lazy,transactional
 
         Comment comment = commentRepository.findById(postId)
             .orElseThrow(() -> new CommentNotFoundException("해당 댓글이 존재하지 않습니다."));

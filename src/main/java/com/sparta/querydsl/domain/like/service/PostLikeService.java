@@ -24,9 +24,9 @@ public class PostLikeService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void doLike(Long postId, User liekUser) {
+    public void doLike(Long postId, User likeUser) {
 
-        User user = userRepository.findById(liekUser.getId()).orElseThrow();//lazy,transactional
+        User user = userRepository.findById(likeUser.getId()).orElseThrow();//lazy,transactional
 
         Post post = postRepository.findById(postId)
             .orElseThrow(() -> new PostNotFoundException("해당 게시물이 존재하지 않습니다."));
