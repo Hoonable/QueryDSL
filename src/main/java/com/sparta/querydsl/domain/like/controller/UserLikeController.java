@@ -1,6 +1,7 @@
 package com.sparta.querydsl.domain.like.controller;
 
 
+import com.sparta.querydsl.domain.comments.dto.CommentWithLikeResponseDto;
 import com.sparta.querydsl.domain.like.service.UserLikeService;
 import com.sparta.querydsl.domain.posts.dto.PostWithLikeResponseDto;
 import com.sparta.querydsl.global.HttpStatusResponseDto;
@@ -31,6 +32,19 @@ public class UserLikeController {
             return new HttpStatusResponseDto(ResponseCode.INVALID_INPUT_VALUE);
         }
     }
+
+    @GetMapping("comments/{page}")
+    public HttpStatusResponseDto getCommentsILike(@PathVariable int page,
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        try {
+            List<CommentWithLikeResponseDto> comments = userLikeService.getCommentsILike(page - 1, userDetails.getUser());
+            return new HttpStatusResponseDto(ResponseCode.SUCCESS, comments);
+        } catch (Exception e) {
+            return new HttpStatusResponseDto(ResponseCode.INVALID_INPUT_VALUE);
+        }
+    }
+
+
 
 
 

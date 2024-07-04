@@ -1,7 +1,10 @@
 package com.sparta.querydsl.domain.like.service;
 
 
+import com.sparta.querydsl.domain.comments.dto.CommentWithLikeResponseDto;
+import com.sparta.querydsl.domain.comments.entity.Comment;
 import com.sparta.querydsl.domain.like.entity.PostLike;
+import com.sparta.querydsl.domain.like.repository.CommentLikeRepository;
 import com.sparta.querydsl.domain.like.repository.PostLikeRepository;
 import com.sparta.querydsl.domain.posts.dto.PostWithLikeResponseDto;
 import com.sparta.querydsl.domain.posts.entity.Post;
@@ -24,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserLikeService {
 
     private final PostLikeRepository postLikeRepository;
-    private final UserRepository userRepository;
+    private final CommentLikeRepository commentLikeRepository;
 
     @Transactional(readOnly = true)
     public List<PostWithLikeResponseDto> getPostsILike(int page, User user) {
@@ -43,5 +46,18 @@ public class UserLikeService {
 
     }
 
+    @Transactional
+    public List<CommentWithLikeResponseDto> getCommentsILike(int page, User user) {
+        if (page < 0) {
+            throw new InvalidPageException("잘못된 페이지입니다.");
+        }
+        PageRequest pageRequest = PageRequest.of(page, 5);
+        List<Comment> comments = commentLikeRepository.getCommentListWithePageAndSortCreatedAtDesc( user.getId() , pageRequest.getOffset(), pageRequest.getPageSize());
 
+        if (comments.isEmpty()) {
+            throw new InvalidPageException("잘못된 페이지입니다.");
+        }
+        return comments.stream().map(comment -> new CommentWithLikeResponseDto(comment, comment.getCommentLikes().size())).toList();
+
+    }
 }
