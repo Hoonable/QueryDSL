@@ -1,5 +1,6 @@
 package com.sparta.querydsl.domain.user.service;
 
+import com.sparta.querydsl.domain.user.dto.ProfileResponseDto;
 import com.sparta.querydsl.global.config.ResponseCode;
 import com.sparta.querydsl.domain.user.dto.SignupRequestDto;
 import com.sparta.querydsl.domain.user.dto.UpdatePasswordRequestDto;
@@ -72,5 +73,13 @@ public class UserService {
         userRepository.save(user);
 
         return ResponseCode.SUCCESS;
+    }
+
+    @Transactional
+    public ProfileResponseDto getProfile(User myUser) {
+        User user = userRepository.findById(myUser.getId()).orElseThrow();
+        int postLikesCount = user.getPostLikes().size();
+        int commentLikeCount = user.getCommentLikes().size();
+        return new ProfileResponseDto(user, postLikesCount, commentLikeCount);
     }
 }

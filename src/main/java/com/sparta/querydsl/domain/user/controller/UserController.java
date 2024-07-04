@@ -1,5 +1,6 @@
 package com.sparta.querydsl.domain.user.controller;
 
+import com.sparta.querydsl.domain.user.dto.ProfileResponseDto;
 import com.sparta.querydsl.global.config.ResponseCode;
 import com.sparta.querydsl.global.HttpStatusResponseDto;
 import com.sparta.querydsl.domain.user.dto.SignupRequestDto;
@@ -22,6 +23,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -130,6 +132,16 @@ public class UserController {
 
         // 클라이언트 측 토큰 삭제 요청을 위해 응답 설정
         return createResponse("Logged out successfully", HttpStatus.OK);
+    }
+
+
+
+    @GetMapping("/profile")
+    public ResponseEntity<HttpStatusResponseDto> getMyProfile(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        ProfileResponseDto profile = userService.getProfile(userDetails.getUser());
+        return  ResponseEntity.ok().body(new HttpStatusResponseDto(ResponseCode.SUCCESS, profile));
+
     }
 
 }
