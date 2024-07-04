@@ -2,6 +2,7 @@ package com.sparta.querydsl.domain.comments.controller;
 
 import com.sparta.querydsl.domain.comments.dto.CommentRequestDto;
 import com.sparta.querydsl.domain.comments.dto.CommentResponseDto;
+import com.sparta.querydsl.domain.comments.dto.CommentWithLikeResponseDto;
 import com.sparta.querydsl.domain.comments.entity.Comment;
 import com.sparta.querydsl.domain.comments.service.CommentService;
 import com.sparta.querydsl.domain.posts.dto.PostRequestDto;
@@ -67,7 +68,7 @@ public class CommentController {
     @GetMapping("{page}")
     public HttpStatusResponseDto getComments(@PathVariable int page) {
         try {
-            List<CommentResponseDto> comments = commentService.getComments(page-1);
+            List<CommentWithLikeResponseDto> comments = commentService.getComments(page-1);
             return new HttpStatusResponseDto(ResponseCode.SUCCESS, comments);
         }catch (Exception e) {
             return new HttpStatusResponseDto(ResponseCode.INVALID_INPUT_VALUE);

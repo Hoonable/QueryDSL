@@ -2,9 +2,11 @@ package com.sparta.querydsl.domain.comments.service;
 
 import com.sparta.querydsl.domain.comments.dto.CommentRequestDto;
 import com.sparta.querydsl.domain.comments.dto.CommentResponseDto;
+import com.sparta.querydsl.domain.comments.dto.CommentWithLikeResponseDto;
 import com.sparta.querydsl.domain.comments.entity.Comment;
 import com.sparta.querydsl.domain.comments.repository.CommentRepository;
 import com.sparta.querydsl.domain.posts.dto.PostResponseDto;
+import com.sparta.querydsl.domain.posts.dto.PostWithLikeResponseDto;
 import com.sparta.querydsl.domain.posts.entity.Post;
 import com.sparta.querydsl.domain.posts.repository.PostRepository;
 import com.sparta.querydsl.domain.user.entity.User;
@@ -69,7 +71,7 @@ public class CommentService {
     }
 
     @Transactional(readOnly = true)
-    public List<CommentResponseDto> getComments(int page) {
+    public List<CommentWithLikeResponseDto> getComments(int page) {
         if(page<0){
             throw new InvalidPageException("잘못된 페이지입니다.");
         }
@@ -80,6 +82,8 @@ public class CommentService {
         if (comments.isEmpty()){
             throw new InvalidPageException("잘못된 페이지입니다.");
         }
-        return (comments.map(CommentResponseDto::new)).getContent();
+
+        return (comments.map(comment -> new CommentWithLikeResponseDto(comment, comment.getCommentLikes().size()))
+            .getContent());
     }
 }

@@ -1,6 +1,8 @@
 package com.sparta.querydsl.domain.comments.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.sparta.querydsl.domain.like.entity.CommentLike;
+import com.sparta.querydsl.domain.like.entity.PostLike;
 import com.sparta.querydsl.domain.posts.entity.Post;
 import com.sparta.querydsl.domain.user.entity.User;
 import com.sparta.querydsl.global.Timestamped;
@@ -12,6 +14,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -44,6 +49,10 @@ public class Comment extends Timestamped {
         this.content = content;
 
     }
+
+    @OneToMany(mappedBy = "comment")
+    private List<CommentLike> commentLikes = new ArrayList<>();
+
 
     public void setContent(String content) {
         this.content = content;

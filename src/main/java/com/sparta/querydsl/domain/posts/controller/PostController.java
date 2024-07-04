@@ -3,6 +3,7 @@ package com.sparta.querydsl.domain.posts.controller;
 
 import com.sparta.querydsl.domain.posts.dto.PostRequestDto;
 import com.sparta.querydsl.domain.posts.dto.PostResponseDto;
+import com.sparta.querydsl.domain.posts.dto.PostWithLikeResponseDto;
 import com.sparta.querydsl.domain.posts.entity.Post;
 import com.sparta.querydsl.domain.posts.service.PostService;
 import com.sparta.querydsl.global.HttpStatusResponseDto;
@@ -64,7 +65,7 @@ public class PostController {
     @GetMapping("{page}")
     public HttpStatusResponseDto getPosts(@PathVariable int page) {
         try {
-            List<PostResponseDto> posts = postService.getPosts(page-1);
+            List<PostWithLikeResponseDto> posts = postService.getPosts(page-1);
             return new HttpStatusResponseDto(ResponseCode.SUCCESS, posts);
         }catch (Exception e) {
             return new HttpStatusResponseDto(ResponseCode.INVALID_INPUT_VALUE);
