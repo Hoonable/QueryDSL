@@ -20,6 +20,8 @@ public enum ResponseCode {
     DO_NOT_LIKE_MY_COMMENT(400, "C009", "자신의 댓글에 좋아요할 수 없습니다."),
     DO_NOT_LIKE_MY_POST(400, "C010", "자신의 게시물에 좋아요할 수 없습니다.");
 
+
+
     private final int statusCode;
     private final String code;
     private final String message;

@@ -1,6 +1,8 @@
 package com.sparta.querydsl.domain.user.entity;
 
 
+import com.sparta.querydsl.domain.like.entity.CommentLike;
+import com.sparta.querydsl.domain.like.entity.PostLike;
 import com.sparta.querydsl.global.Timestamped;
 import com.sparta.querydsl.global.enums.UserStatusEnum;
 import jakarta.persistence.Column;
@@ -11,7 +13,10 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -71,5 +76,10 @@ public class User extends Timestamped {
         this.status = status;
     }
 
+    @OneToMany(mappedBy = "user")
+    private List<PostLike> postLikes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<CommentLike> commentLikes = new ArrayList<>();
 
 }

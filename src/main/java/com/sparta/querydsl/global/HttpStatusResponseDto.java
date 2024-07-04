@@ -2,6 +2,7 @@ package com.sparta.querydsl.global;
 
 import com.sparta.querydsl.global.config.ResponseCode;
 import lombok.Getter;
+import org.springframework.http.ResponseEntity;
 
 @Getter
 public class HttpStatusResponseDto {
