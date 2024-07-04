@@ -9,12 +9,16 @@ spring:
     show-sql: true
     open-in-view: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     properties:
       hibernate:
         show_sql: true
         format_sql: true
         use_sql_comments: true
+
+  sql:
+    init:
+      mode: always
 
 jwt:
   secret:
